@@ -36,7 +36,7 @@ class Pixelate:
         self.text_color = (24, 242, 18)  # Matrix green
         self.ascii_background = (0, 0, 0)
 
-        self.frame_step = 4
+        self.frame_step = 1
 
         self.image = None
         self.pixels = None
@@ -113,13 +113,15 @@ class Pixelate:
             if show:
                 self.image.show()
 
+    @timer_func
     def convert_video(self):
         image_counter = 0
         read_counter = 0
 
         print('Read file: {}'.format(self.file_name))
         cap = cv2.VideoCapture(self.file_name)  # says we capture an image from a webcam
-        out = cv2.VideoWriter(self.new_file_name, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 10,
+        frame_rate = int(cap.get(5))
+        out = cv2.VideoWriter(self.new_file_name, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), frame_rate,
                               (int(cap.get(3)), int(cap.get(4))))
 
         while cap.isOpened():
