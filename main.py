@@ -1,14 +1,10 @@
-from PIL import Image, ImageDraw, ImageFont, ImageTk
+from PIL import Image, ImageDraw, ImageFont
 from time import time
 import cv2
 import numpy
-import os
-import sys
 
 
 def timer_func(func):
-    # This function shows the execution time of
-    # the function object passed
     def wrap_func(*args, **kwargs):
         t1 = time()
         result = func(*args, **kwargs)
@@ -82,7 +78,7 @@ class Pixelate:
                         self.new_draw.text((int(x * x_ratio), int(y * y_ratio)), grey_char, fill=self.text_color,
                                            font=self.ascii_font)
 
-                # for pixelate and greyscale
+                # Update the image for pixelate and greyscale
                 if self.method != 'ascii':
                     for x_sub in range(int(x * x_ratio), int((x + 1) * x_ratio)):
                         for y_sub in range(int(y * y_ratio), int((y + 1) * y_ratio)):
