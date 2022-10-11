@@ -19,7 +19,7 @@ def convert_to_gray(rgb):
     return int(0.2989 * rgb[0] + 0.5870 * rgb[1] + 0.1140 * rgb[2])
 
 
-class Pixelate:
+class PixelArt:
     def __init__(self, width=128, height=72, method='pixelate', show_original=False, file_name=''):
         self.width = width
         self.height = height
@@ -119,13 +119,13 @@ class Pixelate:
         read_counter = 0
 
         print('Read file: {}'.format(self.file_name))
-        cap = cv2.VideoCapture(self.file_name)  # says we capture an image from a webcam
-        frame_rate = int(cap.get(5))
-        out = cv2.VideoWriter(self.new_file_name, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), frame_rate,
-                              (int(cap.get(3)), int(cap.get(4))))
+        video_in = cv2.VideoCapture(self.file_name)  # says we capture an image from a webcam
+        frame_rate = int(video_in.get(5))
+        video_out = cv2.VideoWriter(self.new_file_name, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), frame_rate,
+                              (int(video_in.get(3)), int(video_in.get(4))))
 
-        while cap.isOpened():
-            ret, cv2_im = cap.read()
+        while video_in.isOpened():
+            ret, cv2_im = video_in.read()
             if ret and read_counter % self.frame_step == 0:
                 print(f'Processing frame {read_counter}')
                 converted = cv2.cvtColor(cv2_im, cv2.COLOR_BGR2RGB)
@@ -145,15 +145,15 @@ class Pixelate:
                 open_cv_image = numpy.array(pil_image)
                 open_cv_image = open_cv_image[:, :, ::-1].copy()
 
-                out.write(open_cv_image)
+                video_out.write(open_cv_image)
 
                 image_counter += 1
             elif not ret:
                 break
             read_counter += 1
 
-        cap.release()
-        out.release()
+        video_in.release()
+        video_out.release()
 
         print(f'image={image_counter}, read={read_counter}')
 
@@ -164,5 +164,5 @@ if __name__ == '__main__':
     # P.convert_image()
 
     # Convert video file to ascii art
-    P = Pixelate(file_name='assets/test2.mp4', method="ascii")
+    P = PixelArt(file_name='assets/test2.mp4', method="ascii")
     P.convert_video()

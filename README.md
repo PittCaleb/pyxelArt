@@ -3,7 +3,7 @@ Convert image or video into pixelized render
 
 ## Execution
 ```bash
-python main.py
+python pixelArt.py
 ```
 
 ## Requirements
@@ -14,7 +14,7 @@ ToDo: Trim packages, some are from itterative development and are no longer requ
 ## Usage
 For now, command line is not supported.  Modify the code at bottom of code.
 
-Instantiate the Pixelate class
+Instantiate the PixelArt class
 
 Call either convert_image or convert_video
 
