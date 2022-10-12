@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container pyxelart">
+    <h1>Welcome to PyxelArt</h1>
+
+    <form id="settings" action="process" method="post" enctype="multipart/form-data">
+
+        <div class="row">
+            <div class="col-xl-2 fileSelect">
+                <label for="filename" class="form-label">Input File</label>
+            </div>
+            <div class="col-xl-4">
+                <input type="text" id="filename" class="form-control" placeholder="{{ data.filename }}">
+            </div>
+        </div>
+        <!--    <div class="row">-->
+        <!--        <div class="col-xl-2 fileSelect">-->
+        <!--            <label for="renderedFilename" class="form-label">Output File</label>-->
+        <!--        </div>-->
+        <!--        <div class="col-xl-4">-->
+        <!--            <input type="text" id="renderedFilename" class="form-control" placeholder="{{ data.renderedFilename }}"-->
+        <!--            disabled>-->
+        <!--        </div>-->
+        <!--    </div>-->
+        <div class="row method">
+            <div class="col-xl-2">
+                Method
+            </div>
+            <div class="col-xl-6">
+                <div class="btn-group" role="group">
+                    <input type="radio" class="btn-check" name="method" id="pyxelate" value="pyxelate" autocomplete="off" {% if
+                           data.method=='pyxelate' %}checked{% endif %}>
+                    <label class="btn btn-outline-dark" for="pyxelate">Pyxelate</label>
+
+                    <input type="radio" class="btn-check" name="method" id="greyscale" value="greyscale" autocomplete="off" {% if
+                           data.method=='greyscale' %}checked{% endif %}>
+                    <label class="btn btn-outline-dark" for="greyscale">Greyscale</label>
+
+                    <input type="radio" class="btn-check" name="method" id="ascii" value="ascii" autocomplete="off" {% if
+                           data.method=='ascii' %}checked{% endif %}>
+                    <label class="btn btn-outline-dark" for="ascii">ASCIIify</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-2">
+                <label for="width" class="form-label">Horiz Blocks</label>
+            </div>
+            <div class="col-xl-1">
+                <input type="text" id="width" name="width" class="form-control" value="{{ data.width }}">
+            </div>
+            <div class="col-xl-1" {% if data.fileDetails.frameRate== 0 %}style="display: none;" {% endif %}>
+                <label for="fps" class="form-label">FPS</label>
+            </div>
+            <div class="col-xl-1" {% if data.fileDetails.frameRate== 0 %}style="display: none;" {% endif %}>
+                <input type="text" id="fps" name="fps" class="form-control" value="{{ data.fileDetails.frameRate }}">
+            </div>
+        </div>
+
+        <!--    <div class="asciiSelectors" {% if data.method !='ascii' %}style="display: none;" {% endif %}>-->
+        <div class="asciiSelectors">
+            <div class="row">
+                <div class="col-xl-4">
+                    <h4>ASCII'ification Values</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-2 fontSelector">
+                    Select Font
+                </div>
+                <div class="col-xl-2">
+                    <select class="form-select" id="fontSelection" name="fontSelection">
+                        {% for row in data.fontList %}
+                        <option {% if data.asciiFont== row %}selected{% endif %} value="{{ row }}">{{ row }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-xl-1">
+                    <label for="asciiFontColor" class="form-label">Font Color</label>
+                </div>
+                <div class="col-xl-1">
+                    <input type="color" class="form-control form-control-color" id="asciiFontColor"
+                           name="asciiFontColor"
+                           value="{{ data.textColor }}">
+                </div>
+                <div class="col-xl-1">
+                    <label for="asciiFontColor" class="form-label">Background Color</label>
+                </div>
+                <div class="col-xl-1">
+                    <input type="color" class="form-control form-control-color" id="asciiBGColor" name="asciiBGColor"
+                           value="{{ data.asciiBackground }}">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-2">
+            </div>
+            <div class="col-xl-2">
+                <button type="submit" class="btn btn-primary">Pyxelate</button>
+            </div>
+        </div>
+
+        <input type="hidden" id="data" name="data" value="{{ data }}">
+
+    </form>
+</div>
+
+{% endblock %}

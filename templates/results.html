@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container pyxelart">
+    <h1>Your PyxelArt Image:</h1>
+    <div class="image" {% if not data.isImage %}style="display: none;" {% endif %}>
+        <div class="note">Right click, "Open image in new tab" or "Save image as..." to save image locally and then view
+            full size
+        </div>
+        <div class="row">
+            <div class="col-xl-1"></div>
+            <div class="col-xl-10">
+                <img src="/static/tmp/{{ data.newFile }}" style="max-width: 100%;max-height: 100%;display: block;">
+            </div>
+        </div>
+    </div>
+    <div class="video" {% if data.isImage %}style="display: none;" {% endif %}>
+        <div class="note">Right click, "Save Link as..." then open using your file explorer. Sorry, can't embed videos
+            at this time.
+        </div>
+        <div class="downloadLink">
+            <a href="/static/tmp/{{ data.newFile }}">pyxelated Video File</a>
+        </div>
+
+        <!--            <div class="row">-->
+        <!--                <div class="col-xl-1"></div>-->
+        <!--                <div class="col-xl-10">-->
+        <!--                    <video width="640" controls>-->
+        <!--                        <source src="/static/tmp/{{ data.newFile }}" type="video/{{ data.fileExt }}">-->
+        <!--                        Your browser does not support the video tag.-->
+        <!--                    </video>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+    </div>
+
+    {% endblock %}
