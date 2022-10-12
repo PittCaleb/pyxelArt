@@ -40,11 +40,12 @@ Optional parameters:
   - This was written for local, it is not offered as "safe" from a file or validation POV
  
  ## ToDo
-  - Web front end (flack/jinja)
+  - Web front end
     - Change file button on process entry screen
     - Style forms nicely
     - Proper intro and explainer
     - About/Help Page 
+    - i.e. nav bar
     - Interactive screen, respond to changes in process form
     - Modify Settings and re-PyxelArt underneath resultant image/video
   - Change font size based on final image size
@@ -57,7 +58,9 @@ Optional parameters:
   - Save thumbnail from video
   - pre-count video frames
   - Estimate time based on frame-rate for video processing
-  - Progres feedback for video processing
+  - Progress feedback for video processing
+  - Reset on color picker
+  
   
 
 ## Done/Scraped
@@ -67,7 +70,7 @@ Optional parameters:
   - ~~Save new image file~~
   - ~~Only accept 1 param for pixel/chunks, interpolate other dimension~~
   - ~~Rename app from pixelArt to pyxelArt~~
-  - ~~Build web frontend~~
+  - ~~Build web frontend (flask/jinji)~~
 
 
 ## Contact
