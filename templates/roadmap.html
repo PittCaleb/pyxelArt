@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<p>The origin story of PyxelArt was "I want to have a filter for Zoom meetings that makes me look like a living ASCII
+    art". Many thanks Brendan Ford for the inspiration for this fun project.</p>
+
+<p>To get ASCII Art, I first needed to break down the image into blocks. (1)</p>
+<p>After I had blocks, I needed to determine the brightness of each block. (2)</p>
+<p>To determine the brightness, I needed to find the average color for said block. (3)</p>
+<p>Since I had to work through each step, PyxetArt could now produce a color-pixelated version of an image (3), a
+    Grescale rendering of same (2) as well as the desired ASCII Art (1) version of the original image.</p>
+<p>But the original goal was moving video, which is merely a series of still frames. So we can do all of the above (1,
+    2, 3) for both still Images as well as Videos!</p>
+<p>PyxelArt was first written to run command line with images/videos shown on screen.</p>
+<p>Only after that was working was a web/flask interface built. The instructions for running the code had quickly become
+    over-complixated with all the optional parameters. Simply clicking radio buttons and checkboxes on a web for would
+    surely be easier.</p>
+<p>As of today, the bulk of the basic functionality of PyxelArt is complete. Below are some high level goals that will
+    be attacked in the weeks and months to come. The README.md file included in the repo is a more detailed and
+    technical document.</p>
+<ul>
+    <li>Ability to create video from an image using PyxelArt settings going from 1-256 blocks</li>
+    <li>Live progress when encoding a video</li>
+    <li>Ability to play video natively in browser</li>
+    <li>WebCam as input device</li>
+    <li>Code cleanup!</li>
+    <li>File deletion of tmp files</li>
+</ul>
+
+<p>If you would like to contribute, the repo can be found at <a href="https://github.com/PittCaleb/pyxelArt">GitHub</a>
+    Please check it out and contribute there.</p>
+
+<img src="/static/cohen-profile-ascii.jpg" width="320">
+{% endblock %}

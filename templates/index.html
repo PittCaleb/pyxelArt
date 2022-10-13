@@ -2,19 +2,25 @@
 
 {% block content %}
 
-<div class="container pyxelart">
-    <h1>Welcome to PyxelArt</h1>
-    <div class="bodytext">Select an image or video to be re-rendered as Pyxelated, Greyscaled or ASCII'ified</div>
+<div class="row">
     <form id="fileSelectForm" action="settings" method="post" enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-xl-4">
-                <input class="form-control" type="file" id="fileSelection" name="fileSelection">
+        <div id="fileInput">
+            <div class="bodytext">Select an image or video to be re-rendered as Pyxelated, Greyscaled or ASCII'ified
             </div>
-            <div class="col-xl-2">
-                <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="row">
+                <div class="col-xl-4">
+                    <input class="form-control" type="file" id="fileSelection" name="fileSelection"
+                           onchange="fileSet();">
+                </div>
             </div>
         </div>
     </form>
+</div>
+<div class="row" id="processingNote">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">File upload in process... Hang tight...</span>
+    </div>
+    File upload in process... Hang tight...
 </div>
 
 {% endblock %}

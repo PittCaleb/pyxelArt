@@ -36,33 +36,27 @@ Optional parameters:
  - show_original - display original image prior to conversion
  
  ## Notes
-  - You may add additional fonts in the /fonts directory and they will automagically be available to the user
-  - This was written for local, it is not offered as "safe" from a file or validation POV
+  - You may add additional fonts in the /fonts directory, and they will automagically be available to the user
+  - This was written for local, it is not advertised as "safe" from a file/validation POV
  
  ## ToDo
-  - Web front end
-    - Add 'Change file' button on process entry screen
-    - Style forms nicely
-    - Proper intro and explainer
-    - About/Help Page 
-    - i.e. nav bar
-    - Interactive screen, respond to changes in process form
-    - Modify Settings and re-PyxelArt underneath resultant image/video
-  - Change font size based on final image size
-  - Clean up some dupe code in video section for image init
-  - Input = webcam, Output = LiveView, stuttered framerate, but acceptable
-  - ASCII Options: Simplified/Complex (web interface & class init)
-  - Use is_image everywhere
-  - Clean up static files
-  - Get video to play natively
-  - Save thumbnail from video
-  - Pre-count video frames (how long take for 1 min file?)
-  - Estimate time based on frame-rate for video processing
-  - Progress feedback for video processing
-  - Reset button on color picker
-  - Display thumbnail on Settings page
-  - Handle errors on file submission
-  - Handle general errors gracefully  
+  - High Priority
+    - Progress feedback for video processing
+    - Still -> Video using Pyxelate/Greyscale/ASCII from 1 > 256
+    - Spinner/Progress after Pyxelate clicked
+    - Clean up some dupe code in video section for image init
+    - Use is_image everywhere
+    - Handle errors on file submission
+    - Handle general errors gracefully
+  - Medium Priority
+    - On change framerate, actually change framerate so plays in same time, just jittery
+    - Get video to play natively
+    - Is there method to read/average/modify image array with NumPy or CV2 much more quickly?
+  - Lower Priority
+    - Input = webcam, Output = LiveView, stuttered framerate, but acceptable
+    - Layout at smaller breakpoints
+    - Change font size based on final image size
+
 
 ## Done/Scraped
   - ~~Clean up requirements.txt~~
@@ -72,7 +66,31 @@ Optional parameters:
   - ~~Only accept 1 param for pixel/chunks, interpolate other dimension~~
   - ~~Rename app from pixelArt to pyxelArt~~
   - ~~Build web frontend (flask/jinja)~~
-
+  - ~~Interactive screen, respond to changes in process form~~
+  - ~~Modify Settings and re-PyxelArt underneath resultant image/video~~
+  - ~~Reset button on color picker~~
+  - ~~Show preview of regular image (even from video)~~
+  - ~~Controls below~~
+  - ~~Retain settings~~
+  - ~~Add original to 3 button option~~
+  - ~~Add 'Change file' button on process entry screen~~
+  - ~~Style forms nicely~~
+  - ~~Save thumbnail from video~~
+  - ~~Display thumbnail on Settings page~~
+  - ~~Preview button for video, Pyxelate for image~~
+  - ~~Create Video for videos~~
+  - ~~Slider for granularity~~
+  - ~~Select diff thumbnail (maybe pre-grab 5, 0/20/40/60/80/100)~~
+  - ~~Wire up Original button~~
+  - ~~Settings Page re-do~~
+  - ~~Pre-count video frames (how long take for 1 min file?)~~
+  - ~~Estimate time based on frame-rate for video processing~~
+  - ~~Add Processing after file upload submitting commences~~
+  - ~~ASCII Options: Simplified/Complex~~
+  - ~~Proper intro and explainer~~
+  - ~~About/Help Page~~ 
+  - ~~i.e. nav bar~~
+  - ~~Clean up static files~~
 
 ## Contact
 Caleb Cohen  

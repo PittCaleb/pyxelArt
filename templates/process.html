@@ -1,110 +1,163 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container pyxelart">
-    <h1>Welcome to PyxelArt</h1>
+<div class="row imageRow image">
+    <div class="row">
+        <div class="col-xl-1"></div>
+        <div class="col-xl-10">
+            <img id="primaryImage" class="pyxelImage" src="/static/tmp/{{ data.showImage }}">
+            <span><i>Right click, "Save image as..." to permanently save above image</i></span>
+            <p {% if data.videoFile=='' %}style="display: none;" {% endif %}><span><i>Right click <a
+                    href="/static/tmp/{{ data.videoFile }}">here</a>, Save link as..." to save then view your video</i></span>
+            </p>
+        </div>
+    </div>
+</div>
 
-    <form id="settings" action="process" method="post" enctype="multipart/form-data">
+<div class="videoThumbnail" {% if data.isImage %}style="display: none;" {% endif %}>
+    <div class="row">
+        <div class="col-xl-1 align-self-center thumbnailNote">Click thumbnail to change</div>
+        {% for thumbnail in data.fileDetails.thumbnails %}
+        <div class="col-xl-2">
+            <img class="thumbnail pyxelImage" src="/static/tmp/{{ thumbnail }}"
+                 onclick="changeTN('/static/tmp/{{ thumbnail }}');">
+        </div>
+        {% endfor %}
+    </div>
+</div>
 
-        <div class="row">
-            <div class="col-xl-2 fileSelect">
-                <label for="filename" class="form-label">Input File</label>
-            </div>
-            <div class="col-xl-4">
-                <input type="text" id="filename" class="form-control" placeholder="{{ data.filename }}">
+<form id="settings" action="process" method="post" enctype="multipart/form-data">
+
+    <div class="row">
+        <div class="col-xl-1"></div>
+        <div class="col-xl-1 fileSelect">
+            <label for="filename" class="form-label"><b>Input File</b></label>
+        </div>
+        <div class="col-xl-4">
+            <input type="text" id="filename" class="form-control" placeholder="{{ data.filename }}">
+        </div>
+        <div class="col-xl-2">
+            <button type="button" class="btn btn-secondary" onclick="restart();">New Image</button>
+        </div>
+    </div>
+
+    <div class="row method">
+        <div class="col-xl-1"></div>
+        <div class="col-xl-1">
+            <b>Method</b>
+        </div>
+        <div class="col-xl-6">
+            <div class="btn-group" role="group">
+                <input type="radio" class="btn-check" name="method" id="pyxelate" value="pyxelate"
+                       autocomplete="off" {% if
+                       data.method=='pyxelate' %}checked{% endif %} onclick="asciiToggle(false)">
+                <label class="btn btn-outline-dark" for="pyxelate">Pyxelate</label>
+
+                <input type="radio" class="btn-check" name="method" id="greyscale" value="greyscale"
+                       autocomplete="off" {% if
+                       data.method=='greyscale' %}checked{% endif %} onclick="asciiToggle(false)">
+                <label class="btn btn-outline-dark" for="greyscale">Greyscale</label>
+
+                <input type="radio" class="btn-check" name="method" id="ascii" value="ascii" autocomplete="off" {%
+                       if
+                       data.method=='ascii' %}checked{% endif %} onclick="asciiToggle(true)">
+                <label class="btn btn-outline-dark" for="ascii">ASCIIify</label>
             </div>
         </div>
-        <!--    <div class="row">-->
-        <!--        <div class="col-xl-2 fileSelect">-->
-        <!--            <label for="renderedFilename" class="form-label">Output File</label>-->
-        <!--        </div>-->
-        <!--        <div class="col-xl-4">-->
-        <!--            <input type="text" id="renderedFilename" class="form-control" placeholder="{{ data.renderedFilename }}"-->
-        <!--            disabled>-->
-        <!--        </div>-->
-        <!--    </div>-->
-        <div class="row method">
-            <div class="col-xl-2">
-                Method
-            </div>
-            <div class="col-xl-6">
-                <div class="btn-group" role="group">
-                    <input type="radio" class="btn-check" name="method" id="pyxelate" value="pyxelate" autocomplete="off" {% if
-                           data.method=='pyxelate' %}checked{% endif %}>
-                    <label class="btn btn-outline-dark" for="pyxelate">Pyxelate</label>
+    </div>
 
-                    <input type="radio" class="btn-check" name="method" id="greyscale" value="greyscale" autocomplete="off" {% if
-                           data.method=='greyscale' %}checked{% endif %}>
-                    <label class="btn btn-outline-dark" for="greyscale">Greyscale</label>
-
-                    <input type="radio" class="btn-check" name="method" id="ascii" value="ascii" autocomplete="off" {% if
-                           data.method=='ascii' %}checked{% endif %}>
-                    <label class="btn btn-outline-dark" for="ascii">ASCIIify</label>
-                </div>
+    <div class="row">
+        <div class="col-xl-1"></div>
+        <div class="col-xl-1">
+            <label for="width" class="form-label"><b>Horiz Blocks</b></label>
+        </div>
+        <div class="col-xl-6">
+            <input type="range" class="form-range" min="0" max="256" step="4" id="width" name="width"
+                   value="{{ data.width }}" onmousemove="updateWidth();" onmousedown="updateWidth();">
+        </div>
+        <div class="col-xl-1">
+            <label for="width" id="widthLabel" class="form-label"><b>{{ data.width }}</b></label>
+        </div>
+        <div class="col-xl-3">
+            <div id="complexSwitch" class="form-check form-switch" {% if data.method!='ascii' %}style="display: none;"
+                 {% endif %}>
+                <input class="form-check-input" type="checkbox" role="switch" name="asciiCharSet" id="asciiCharSet" {%
+                       if data.asciiCharSet=='complex' %}checked{% endif %}>
+                <label class="form-check-label" for="asciiCharSet">Complex Char Set</label>
             </div>
         </div>
+    </div>
 
-        <div class="row">
-            <div class="col-xl-2">
-                <label for="width" class="form-label">Horiz Blocks</label>
-            </div>
-            <div class="col-xl-1">
-                <input type="text" id="width" name="width" class="form-control" value="{{ data.width }}">
-            </div>
-            <div class="col-xl-1" {% if data.fileDetails.frameRate== 0 %}style="display: none;" {% endif %}>
-                <label for="fps" class="form-label">FPS</label>
-            </div>
-            <div class="col-xl-1" {% if data.fileDetails.frameRate== 0 %}style="display: none;" {% endif %}>
-                <input type="text" id="fps" name="fps" class="form-control" value="{{ data.fileDetails.frameRate }}">
-            </div>
+    <div class="row">
+        <div class="col-xl-1"></div>
+        <div class="col-xl-1" {% if data.isImage %}style="display: none;" {% endif %}>
+            <label for="fps" class="form-label"><b>FPS</b></label>
         </div>
-
-        <!--    <div class="asciiSelectors" {% if data.method !='ascii' %}style="display: none;" {% endif %}>-->
-        <div class="asciiSelectors">
+        <div class="col-xl-1" {% if data.isImage %}style="display: none;" {% endif %}>
+            <input type="text" id="fps" name="fps" class="form-control" value="{{ data.fps }}"
+                   oninput="setRenderTime();">
+        </div>
+        <div class="col-xl-3" {% if data.isImage %}style="display: none;" {% endif %}>
+            <p><b>Frames:</b><span id="frames">{{ data.fileDetails.frames }}</span><br>
+                <b>Appx Render Time:</b><span id="renderTime">{{ data.initialEncodingEst}} mins</span></p>
+        </div>
+        <div class="col asciiSelectors" id="asciiSelectors" {% if data.method!='ascii' %}style="display: none;" {%
+             endif %}>
             <div class="row">
-                <div class="col-xl-4">
-                    <h4>ASCII'ification Values</h4>
+                <div class="col-xl-1 fontLabel">
+                    <label for="fontSelection" class="form-label"><b>Font</b></label>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xl-2 fontSelector">
-                    Select Font
-                </div>
-                <div class="col-xl-2">
+                <div class="col-xl-3">
                     <select class="form-select" id="fontSelection" name="fontSelection">
                         {% for row in data.fontList %}
-                        <option {% if data.asciiFont== row %}selected{% endif %} value="{{ row }}">{{ row }}</option>
+                        <option {% if data.asciiFont== row %}selected{% endif %} value="{{ row }}">{{ row }}
+                        </option>
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-xl-1">
-                    <label for="asciiFontColor" class="form-label">Font Color</label>
+                <div class="col-xl-1 text-end">
+                    <label for="asciiFontColor" class="form-label"><b>Color</b></label>
                 </div>
                 <div class="col-xl-1">
                     <input type="color" class="form-control form-control-color" id="asciiFontColor"
                            name="asciiFontColor"
                            value="{{ data.textColor }}">
                 </div>
-                <div class="col-xl-1">
-                    <label for="asciiFontColor" class="form-label">Background Color</label>
+                <div class="col-xl-2 text-end">
+                    <label for="asciiFontColor" class="form-label"><b>Background</b></label>
                 </div>
+
                 <div class="col-xl-1">
-                    <input type="color" class="form-control form-control-color" id="asciiBGColor" name="asciiBGColor"
+                    <input type="color" class="form-control form-control-color" id="asciiBGColor"
+                           name="asciiBGColor"
                            value="{{ data.asciiBackground }}">
                 </div>
+
+                <div class="col-xl-1">
+                    <button type="button" class="btn btn-secondary" onclick="resetColors()">Reset</button>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-xl-2">
-            </div>
-            <div class="col-xl-2">
-                <button type="submit" class="btn btn-primary">Pyxelate</button>
-            </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-5">
         </div>
+        <div class="col-xl-1">
+            <button type="submit" class="btn btn-primary" id="preview" name="button" value="preview" {% if data.isImage
+                    %}style="display: none;" {% endif %}>Preview
+            </button>
+        </div>
+        <div class="col-xl-1">
+            <button type="submit" class="btn btn-primary" id="doit" name="button" value="doit">Pyxelate</button>
+        </div>
+    </div>
 
-        <input type="hidden" id="data" name="data" value="{{ data }}">
+    <input type="hidden" id="data" name="data" value="{{ data }}">
+    <input type="hidden" id="imageDisplayed" name="imageDisplayed" value="{{ data.displayImage }}">
+    <input type="hidden" id="originalFPS" name="originalFPS" value="{{ data.origFPS }}">
+    <input type="hidden" id="timePerFrame" name="timePerFrame" value="{{ data.timePerFrame }}">
 
-    </form>
-</div>
+</form>
 
 {% endblock %}
